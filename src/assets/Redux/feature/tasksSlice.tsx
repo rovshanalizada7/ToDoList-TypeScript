@@ -12,6 +12,15 @@ const tasksSlice = createSlice({
         completed: false,
       });
     },
+    deleteTask: (state,action: PayloadAction<number>) => {
+      return state.filter(item => item.id != action.payload)
+    },
+    editTask: (state, action: PayloadAction<Task>) => {
+      const index = state.findIndex(item => item.id === action.payload.id);
+      if (index !== -1) {
+        state[index] = { ...state[index], text: action.payload.text }; 
+      }
+    },
     toggle: (state, action: PayloadAction<number>) => {
       const task = state.find((task) => task.id === action.payload);
       if (task) {
@@ -21,5 +30,5 @@ const tasksSlice = createSlice({
   },
 });
 
-export const { add, toggle } = tasksSlice.actions;
+export const { add, deleteTask ,editTask, toggle } = tasksSlice.actions;
 export default tasksSlice.reducer;

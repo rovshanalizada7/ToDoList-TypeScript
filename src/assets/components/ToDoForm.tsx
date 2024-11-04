@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../Redux/store';
-import { add, toggle } from '../Redux/feature/tasksSlice';
+import { add, deleteTask, editTask, toggle } from '../Redux/feature/tasksSlice';
 import { set } from '../Redux/feature/filterSlice';
-import { Filter } from '../types/types';
+import { Filter, Task } from '../types/types';
+import { FaTrash, FaPen, FaCheck } from "react-icons/fa";
 
 const ToDoForm: React.FC = () => {
   const [newTask, setNewTask] = useState('');
+  const [editId, setEditId] = useState<number | null>(null);
+  const [editText, setEditText] = useState('');
   const tasks = useSelector((state: RootState) => state.tasks);
   const filter = useSelector((state: RootState) => state.filter);
   const dispatch: AppDispatch = useDispatch();
@@ -16,8 +19,23 @@ const ToDoForm: React.FC = () => {
       dispatch(add(newTask.trim()));
       setNewTask('');
     } else {
-        alert('Please enter value')
+        alert('Please enter a value');
     }
+  };
+
+  const handleDelete = (id: number) => {
+    dispatch(deleteTask(id));
+  };
+
+  const handleEdit = (task: Task) => {
+    setEditId(task.id);
+    setEditText(task.text);
+  };
+
+  const handleSave = (id: number) => {
+    dispatch(editTask({ id, text: editText, completed: false }));
+    setEditId(null);
+    setEditText('');
   };
 
   const filteredTasks = tasks.filter((task) => {
@@ -34,8 +52,9 @@ const ToDoForm: React.FC = () => {
           value={newTask}
           onChange={(e) => setNewTask(e.target.value)}
           placeholder="New task..."
+          onKeyDown={(e) => e.key === 'Enter' && handleAddTask()}
         />
-        <button onClick={handleAddTask}>Add</button>
+        <button onClick={handleAddTask} >ADD</button>
       </div>
       
       <div className="filter-group">
@@ -53,12 +72,32 @@ const ToDoForm: React.FC = () => {
       <ul className="task-list">
         {filteredTasks.map((task) => (
           <li key={task.id} className={task.completed ? 'completed' : ''}>
-            <input
-              type="checkbox"
-              checked={task.completed}
-              onChange={() => dispatch(toggle(task.id))}
-            />
-            <span>{task.text}</span>
+            <div style={{display:"flex", alignItems:"center", gap:"10px"}}>
+              <input
+                type="checkbox"
+                checked={task.completed}
+                onChange={() => dispatch(toggle(task.id))}
+                style={{height:"16px",width:"16px"}}
+              />
+              {editId === task.id ? (
+                <input
+                  type="text"
+                  value={editText}
+                  onChange={(e) => setEditText(e.target.value)}
+                  className='editTask'
+                />
+              ) : (
+                <span style={{fontSize:"17px"}}>{task.text}</span>
+              )}
+            </div>
+            <div style={{display:"flex",gap:"15px"}}>
+              <FaTrash className="trash" onClick={() => handleDelete(task.id)} />
+              {editId === task.id ? (
+                <FaCheck onClick={() => handleSave(task.id)} className='faCheck'/>
+              ) : (
+                <FaPen onClick={() => handleEdit(task)} className='faPen'/>
+              )}
+            </div>
           </li>
         ))}
       </ul>
@@ -67,83 +106,3 @@ const ToDoForm: React.FC = () => {
 };
 
 export default ToDoForm;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React, { useState } from "react";
-// import { useDispatch } from "react-redux";
-// import { Todo } from "../types/types";
-// import { todoAdded } from "../Redux/feature/filterSlice";
-// import TodoList from "./TodoLIst";
-
-// const ToDoForm = () => {
-
-//     const [todo, setTodo] = useState<string>("");
-//     const dispatch = useDispatch();
-  
-//     const getAddedTodo = (e:React.FormEvent) => {
-//        e.preventDefault();
-//       if (!todo.trim()) {
-//         alert("todonu doldurun ");
-//         return;
-//       }
-//       const payload: Todo = {
-//         id: Math.floor(Math.random() * 99999999),
-//         content: todo,
-//       };
-//       dispatch(todoAdded(payload));
-//       setTodo("");
-//     };
-
-//   return (
-    
-//     <section>
-//     <div className="toDo">
-//     <form action="">
-//     <input
-//      type="text" 
-//      placeholder='New task...'
-//      value={todo}
-//      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-//        setTodo(e.target.value)
-//      }
-//      />
-//     <button onClick={getAddedTodo}>ADD</button>
-//      </form>
-//      <div>
-//         <span>All</span>
-//         <span>Active</span>
-//         <span>Completed</span>
-//      </div>
-//      <TodoList/>
-     
-//    </div>
-//    </section>
-//   )
-// }
-
-// export default ToDoForm

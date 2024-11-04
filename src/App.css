@@ -1,5 +1,5 @@
 body {
-  background: linear-gradient(90deg, rgba(63,94,251,1) 0%, rgba(89,91,231,1) 14%, rgba(98,90,224,1) 19%, rgba(119,87,208,1) 30%, rgba(138,85,194,1) 40%, rgba(235,72,120,1) 91%, rgba(252,70,107,1) 100%);
+  background: linear-gradient(90deg, rgb(88, 111, 226) 0%, rgba(89,91,231,1) 14%, rgba(98,90,224,1) 19%, rgba(119,87,208,1) 30%, rgba(138,85,194,1) 40%, rgba(235,72,120,1) 91%, rgba(252,70,107,1) 100%);
 }
 .todo-container {
   width: 600px;
@@ -28,12 +28,16 @@ input{
 
 .input-group button {
   margin-left: 8px;
-  padding: 8px 16px;
+  padding: 10px 20px;
   background: #42a5f5;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition: .5s;
+}
+.input-group button:hover{
+  background: #137dd3;
 }
 
 .filter-group button {
@@ -61,7 +65,8 @@ input{
 .task-list li {
   display: flex;
   align-items: center;
-  padding: 8px 0;
+  justify-content:space-between;
+  padding: 15px;
   background-color: #F5F6F8;
   margin-top: 10px;
   gap: 10px;
@@ -71,102 +76,29 @@ input{
   text-decoration: line-through;
   text-decoration-color: black;
   color: #999;
-  
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* *{
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-  text-decoration: none;
-  box-sizing: border-box;
-}
-
-section {
-  width: 100%;
-  height: 740px;
-  background-color: #FE4968;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.toDo{
-  width: 700px;
-  height: 500px;
-  background-color: #fff;
-  border-radius: 10px;
-}
-
-form{
-  margin: 1.7rem;
-  display: flex;
-  gap: 10px;
-}
-
-input {
-  padding: 5px 350px 5px 10px;
-  border: 1px solid lightgray;
-  outline: none;
-  border-radius: 5px;
-}
-button{
-  padding: 10px 22px;
-  border: none;
-  border-radius: 5px;
-  background-color:#53B4D4;
-  color: #fff;
-}
-button:hover{
-  background-color: #1684a9;
-  transition: .5s;
+.trash,.faPen,.faCheck{
   cursor: pointer;
+  transition: .3s;
+  font-size: 17px;
+}
+.trash:hover{
+  color: red;
+}
+.faPen:hover{
+  color: green;
+}
+.faCheck:hover{
+  color: green;
 }
 
-
-ul {
-  color: black;
-  display: flex;
-  margin: 1.7rem;
-  gap: 1rem;
-  flex-direction: column;
-
-}
-
-ul li {
-  width: 94%;
-  background-color:#e0e0e2;
-  padding: 1rem;
-  transition: .5s;
-  list-style-type: none;
+.editTask{
+  padding: 5px;
+  border: 1px solid gray;
   border-radius: 5px;
-  cursor: pointer;
-  display: flex;
-  gap: 1rem;
-  justify-content: space-between;
 }
 
-ul li:hover {
-  background-color: gray;
-  color: #fff
-}
 
-.btns {
-  display: flex;
-  gap: 1rem;
-  align-self: flex-end;
-} */
+
+
