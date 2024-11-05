@@ -14,14 +14,15 @@ const ToDoForm: React.FC = () => {
   const filter = useSelector((state: RootState) => state.filter);
   const dispatch: AppDispatch = useDispatch();
 
+
   const handleAddTask = () => {
-    if (newTask.trim()) {
-      dispatch(add(newTask.trim()));
-      setNewTask('');
-    } else {
-        alert('Please enter a value');
+    if(!newTask.trim()) {
+      alert('Please enter a value');
+    } else{
+        dispatch(add(newTask.trim()));
+        setNewTask('');
     }
-  };
+  } 
 
   const handleDelete = (id: number) => {
     dispatch(deleteTask(id));
